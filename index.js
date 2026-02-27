@@ -1,15 +1,49 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 
-const sequelize = new Sequelize("mydb", "root", "password", {
+const sequelize = new Sequelize("application", "root", "786Yaseen.", {
   host: "localhost",
   dialect: "mysql",
 });
 
-const { DataTypes } = require("sequelize");
-
-const User = sequelize.define("User", {
+const People = sequelize.define("People", {
   name: DataTypes.STRING,
-  email: DataTypes.STRING,
-  gender:DataTypes.ENUM("male","female","other")
+  email: {
+    type: DataTypes.STRING,
+    unique: true
+  },
+  gender: DataTypes.ENUM("male", "female", "other")
 });
 
+async function run() {
+  try {
+    await sequelize.authenticate();
+    console.log("Connected successfully");
+
+    await sequelize.sync();
+    console.log("Tables synced");
+
+    await People.create({
+      name: "Yaseen",
+      email: "yaseen@gmail.com",
+      gender: "male"
+    });
+
+    await People.create({
+      name: "Younas",
+      email: "younas@gmail.com",
+      gender: "male"
+    });
+
+    await People.create({
+      name: "Yousaf",
+      email: "yousaf@gmail.com",
+      gender: "male"
+    });
+
+    console.log("Users inserted");
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+}
+
+run();
