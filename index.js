@@ -51,5 +51,3 @@ run();
 
 console.log("yaseen is working");
 
-console.log("working on a project");
-
